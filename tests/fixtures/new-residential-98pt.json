@@ -1,0 +1,25 @@
+{
+  "contactId": "TEST-98PT",
+  "jobAddress": "Sample new residential build, Gold Coast QLD",
+  "jobType": "New Residential Build",
+  "confidence": 72,
+  "dpi": 130,
+  "totalPoints": 98,
+  "cable": { "powerRunM": 400.0, "lightingRunM": 257.8 },
+  "dedicated": [
+    { "kind": "oven", "runM": 14.0 },
+    { "kind": "hot_water", "runM": 13.6 },
+    { "kind": "other" },
+    { "kind": "other" }
+  ],
+  "counts": {
+    "gpoAndSwitch": 46,
+    "lights": 18,
+    "fansAndExhaust": 5,
+    "dataOutlets": 4,
+    "smokeAlarms": 2,
+    "switchboards": 1,
+    "solar": 16,
+    "rcd": 1
+  }
+}
