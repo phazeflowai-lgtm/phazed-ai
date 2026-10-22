@@ -1,0 +1,37 @@
+name: Uptime check
+
+# Pings the live API every morning (Gold Coast time). If it's down, opens an
+# issue — GitHub emails you about new issues on your own repo.
+on:
+  schedule:
+    - cron: "17 21 * * *" # 07:17 AEST
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check /api/health
+        id: health
+        run: |
+          code=$(curl -s -o body.json -w "%{http_code}" https://phazed-ai.vercel.app/api/health || echo 000)
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          cat body.json || true
+          [ "$code" = "200" ]
+      - name: Open issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = "🚨 PHAZED API is down";
+            const open = await github.rest.issues.listForRepo({ ...context.repo, state: "open", labels: "uptime" });
+            if (open.data.some(i => i.title === title)) return;
+            await github.rest.issues.create({
+              ...context.repo,
+              title,
+              labels: ["uptime"],
+              body: `https://phazed-ai.vercel.app/api/health returned **${{ steps.health.outputs.code }}** at ${new Date().toISOString()}.\n\nGHL and Gumloop calls to the estimating API will fail until this is fixed. Check the latest Vercel deployment.`,
+            });
