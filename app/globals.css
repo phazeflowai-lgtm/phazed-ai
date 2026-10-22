@@ -502,6 +502,66 @@ section {
   margin-bottom: 14px;
 }
 
+.feature-grid.three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stats-note {
+  margin: 14px auto 0 !important;
+  font-size: 13px !important;
+  color: var(--muted);
+  animation: rise 0.8s 0.45s ease both;
+}
+
+/* ---------- Detects ---------- */
+
+.detect-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.detect {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel);
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+}
+
+.detect:hover {
+  border-color: rgba(56, 232, 255, 0.4);
+}
+
+.detect-dot {
+  flex: 0 0 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+}
+
+/* ---------- Quality gates ---------- */
+
+.gate-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin: 48px 0 18px;
+}
+
+.gate-band {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
 /* ---------- CTA ---------- */
 
 .cta {
@@ -516,6 +576,16 @@ section {
 
 .cta .section-lede {
   margin: 0 auto 32px;
+}
+
+.cta-email {
+  margin: 24px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.cta-email a {
+  color: var(--accent);
 }
 
 /* ---------- Footer ---------- */
@@ -593,8 +663,14 @@ section {
 /* ---------- Responsive ---------- */
 
 @media (max-width: 900px) {
-  .agent-grid {
+  .agent-grid,
+  .detect-grid,
+  .feature-grid.three {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gate-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -617,7 +693,9 @@ section {
 
   .stats,
   .agent-grid,
-  .feature-grid {
+  .detect-grid,
+  .feature-grid,
+  .feature-grid.three {
     grid-template-columns: 1fr;
   }
 

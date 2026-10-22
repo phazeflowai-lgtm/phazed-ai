@@ -1,80 +1,54 @@
 # PHAZED AI
 
-**AI agents designed to ship.**
+**Blueprint to priced electrical quote, automatically.**
 
-PHAZED AI builds AI agents, workforces, and execution systems for modern businesses. Specialized agents handle research, coding, review, validation, and deployment as one loop, so teams get from idea to product faster.
+PHAZED AI is electrical estimation automation for contractors, builders, and estimators. Upload a floor plan, and AI agents read the AS/NZS 1102 legend, count every point, and calculate cable, labour, and materials. You get back a quality-checked quote, priced ex GST.
 
-## What this repo includes
+Built on the Gold Coast, QLD.
 
-- A Next.js 15 + TypeScript landing page with a dark theme, animations, and a responsive layout
-- An animated "workforce run" terminal in the hero
-- Cards for the six agents, an execution-loop pipeline, a features section, and an early-access CTA
-- [`docs/workforce.md`](docs/workforce.md), which describes the multi-agent architecture
+## This repo
 
-## The workforce
+The marketing site for PHAZED AI, built with Next.js 15 and TypeScript.
 
-| Agent | Role |
+- Hero with real figures from a sample run and an animated estimate log
+- **How it works:** the six-agent estimating pipeline
+- **What it detects:** the electrical point types PHAZED reads from plans
+- **Quality checks:** confidence bands, sanity limits, blueprint requirements
+- **Who it's for:** contractors, builders and developers, estimating teams
+- A "free sample estimate" call to action that opens a pre-filled email
+
+Pipeline details: [`docs/estimating-pipeline.md`](docs/estimating-pipeline.md)
+
+## The pipeline
+
+| Agent | Job |
 | --- | --- |
-| **Orchestrator** | Breaks goals into tasks, routes them, and tracks progress |
-| **Researcher** | Gathers context from code, docs, and data, and flags risks |
-| **Builder** | Writes implementation plans and code |
-| **Reviewer** | Checks correctness, security, and architecture |
-| **QA** | Tests behavior, edge cases, and reliability |
-| **Deploy** | Confirms production readiness and runs the release |
+| **Intake** | Pulls the job and blueprint from the CRM; stops if anything is missing |
+| **Vision Scan** | Reads the AS/NZS 1102 legend and scale, then counts points room by room |
+| **Takeoff** | Calculates cable runs per size, with drops, terminations, and 10% waste |
+| **Pricing** | Calculates labour hours × rate plus materials, ex GST |
+| **Quality Gate** | Scores confidence, applies sanity limits, sends unsure jobs to a person |
+| **Quote Delivery** | Emails the PDF quote with the full breakdown |
 
-## Getting started
+## Run locally
 
 Requires Node.js 18.18 or newer.
 
 ```bash
 npm install
-npm run dev
-```
-
-Then open http://localhost:3000.
-
-### Production build
-
-```bash
-npm run build
-npm run start
-```
-
-### Type check
-
-```bash
+npm run dev        # http://localhost:3000
+npm run build && npm run start   # production
 npm run typecheck
 ```
 
-## Project structure
+## Editing content
 
-```
-app/
-  layout.tsx    # Root layout and SEO metadata
-  page.tsx      # Landing page (content arrays at the top of the file)
-  globals.css   # Design tokens, components, and animations
-docs/
-  workforce.md  # Multi-agent architecture
-```
-
-## Customizing
-
-- **Copy and content:** edit the `stats`, `agents`, `runLog`, and `features` arrays at the top of `app/page.tsx`.
-- **Brand colors:** change the CSS variables in `:root` in `app/globals.css`.
-- **Contact address:** the CTA button uses `mailto:hello@phazed.ai`. Change it to your real inbox before launch.
+All copy lives in arrays at the top of `app/page.tsx` (`stats`, `agents`, `runLog`, `detects`, `gates`, `checks`, `audiences`). The contact email is `CONTACT_EMAIL` in the same file. Brand colours are CSS variables in `app/globals.css`.
 
 ## Deploy
 
-The fastest option is [Vercel](https://vercel.com/new): import the repo and it detects Next.js automatically. Any host that runs `next build` and `next start` also works.
-
-## Roadmap
-
-- [ ] `/workforces` page with animated architecture diagrams
-- [ ] Pricing section
-- [ ] Product demo video
-- [ ] Waitlist form backed by a database
-- [ ] Working agent orchestration backend
+Import the repo at [vercel.com/new](https://vercel.com/new). Vercel detects Next.js automatically. Then point your domain at it.
 
 ---
 
-© PHAZED AI. Intelligence that moves work.
+© PHAZED AI · Electrical estimation automation · Gold Coast, QLD
