@@ -6,29 +6,27 @@ PHAZED AI is electrical estimation automation for contractors, builders, and est
 
 Built on the Gold Coast, QLD.
 
-## This repo
+## What this repo is
 
-The marketing site for PHAZED AI, built with Next.js 15 and TypeScript.
+The **engine room** behind PHAZED's GoHighLevel setup. GHL handles clients, forms and pipelines. This repo handles the estimating logic, and GitHub keeps it tested and running.
 
-- Hero with real figures from a sample run and an animated estimate log
-- **How it works:** the six-agent estimating pipeline
-- **What it detects:** the electrical point types PHAZED reads from plans
-- **Quality checks:** confidence bands, sanity limits, blueprint requirements
-- **Who it's for:** contractors, builders and developers, estimating teams
-- A "free sample estimate" call to action that opens a pre-filled email
-
-Pipeline details: [`docs/estimating-pipeline.md`](docs/estimating-pipeline.md)
-
-## The pipeline
-
-| Agent | Job |
+| Part | What it does |
 | --- | --- |
-| **Intake** | Pulls the job and blueprint from the CRM; stops if anything is missing |
-| **Vision Scan** | Reads the AS/NZS 1102 legend and scale, then counts points room by room |
-| **Takeoff** | Calculates cable runs per size, with drops, terminations, and 10% waste |
-| **Pricing** | Calculates labour hours × rate plus materials, ex GST |
-| **Quality Gate** | Scores confidence, applies sanity limits, sends unsure jobs to a person |
-| **Quote Delivery** | Emails the PDF quote with the full breakdown |
+| `lib/estimate/` | Pricing rules, the deterministic estimate engine, review gates, and intake validation |
+| `app/api/intake` | GHL webhook: checks a blueprint submission before anything runs |
+| `app/api/estimate` | Gumloop posts the scan here and gets back a priced estimate with one review outcome. Tags and a note are written to GHL |
+| `app/api/health` | Uptime check |
+| `.github/workflows/ci.yml` | Every push re-runs the real 98-point job; wrong maths can't deploy |
+| `.github/workflows/uptime.yml` | Daily ping; opens an Issue if the API is down |
+| `app/page.tsx` | Public landing page at https://phazed-ai.vercel.app |
+
+- **How it fits together:** [`docs/architecture.md`](docs/architecture.md)
+- **Switching it on (Vercel + GHL + Gumloop):** [`docs/setup.md`](docs/setup.md)
+- **Pricing rules explained:** [`docs/estimating-pipeline.md`](docs/estimating-pipeline.md)
+
+## Changing prices
+
+Edit `lib/estimate/config.ts`, then update the expected totals in `tests/engine.test.ts`, and push. CI confirms the maths, and Vercel deploys automatically.
 
 ## Run locally
 
@@ -36,18 +34,9 @@ Requires Node.js 18.18 or newer.
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
-npm run build && npm run start   # production
-npm run typecheck
+npm run dev     # http://localhost:3000
+npm run ci      # typecheck + tests + production build
 ```
-
-## Editing content
-
-All copy lives in arrays at the top of `app/page.tsx` (`stats`, `agents`, `runLog`, `detects`, `gates`, `checks`, `audiences`). The contact email is `CONTACT_EMAIL` in the same file. Brand colours are CSS variables in `app/globals.css`.
-
-## Deploy
-
-Import the repo at [vercel.com/new](https://vercel.com/new). Vercel detects Next.js automatically. Then point your domain at it.
 
 ---
 
